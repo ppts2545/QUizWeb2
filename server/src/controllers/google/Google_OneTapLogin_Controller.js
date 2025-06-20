@@ -9,6 +9,7 @@ exports.googleLogin = async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
+    
     res.json({ success: true, user: payload });
   } catch (error) {
     res.status(401).json({ success: false, message: 'Invalid Google credential', error: error.message });

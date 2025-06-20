@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const rateLimit = require('express-rate-limit');
-const SignupController = require('../controllers/Signup_Controller');
-const LoginController = require('../controllers/Google_Login_Controller');
+const SignupController = require('../controllers/google/Signup_Controller');
+const LoginController = require('../controllers/google/Google_Login_Controller');
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,

@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
-const mysqlConnection = require('../config/database/connection').getMySQLConnection();
+const mysqlConnection = require('../../config/database/connection').getMySQLConnection();
 const bcrypt = require('bcrypt');
+
 
 // Temporary in-memory stores
 const verificationCodes = {};

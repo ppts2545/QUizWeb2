@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 
 // Import routes
-const UserRoute = require('./routes/user.routes.js');
+const UserRoute = require('./routes/user.routes');
 
 
 const { connectMongoDB, connectMySQL } = require('./config/database/connection.js');
