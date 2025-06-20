@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #000000;
+}
+
+.room-thumbnail {
+  margin: 20px;
+  background-color: gray;
+  width: 90%;
+  height: 300px;
+  margin: 20px;
+}
