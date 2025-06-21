@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const mysqlConnection = require('../../config/database/connection').getMySQLConnection();
 const bcrypt = require('bcrypt');
-
+const createUserIfNotExists = require('../userActions')
 
 // Temporary in-memory stores
 const verificationCodes = {};
@@ -60,7 +60,7 @@ exports.verifyCode = async (req, res) => {
 
 // 3. Create Account
 exports.submitCreateAccount = async (req, res) => {
-    const { username, email, password} = req.body;
+    const { username, email, password, picture} = req.body;
 
     const create_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
@@ -69,26 +69,8 @@ exports.submitCreateAccount = async (req, res) => {
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const [rows] = await mysqlConnection.execute(
-            'SELECT * FROM users WHERE username = ? OR email = ?',
-            [username, email]
-        );
-
-        if (rows.length > 0) {
-            return res.status(400).json({ message: 'Username or email already in use. Please use a different one.' });
-        }
-
-        await mysqlConnection.execute(
-            'INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)',
-            [username, email, hashedPassword, create_at]
-        );
-
-        verifiedEmails.delete(email);
-
-        res.status(201).json({ message: 'User created successfully' });
-
+       await createUserIfNotExists(username, email, password, picture, create_at);
+       res.status(200).json({message: 'Account created successfully'})
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ message: 'Internal server error' });
