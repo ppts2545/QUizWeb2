@@ -1,17 +1,36 @@
+import React, { useEffect, useState } from 'react';
 
-import React from 'react';
+type Room = {
+  slug: string;
+  thumbnail_url: string;
+  title: string;
+};
 
-type RoomThumbnailProps = {
+const RoomThumbnail: React.FC = () => {
+  const [rooms, setRooms] = useState<Room[]>([]);
 
-}
+  useEffect(() => {
+    fetch('/api/rooms')
+      .then(res => res.json())
+      .then(data => setRooms(data))
+      .catch(err => {
+        console.error('Failed to load rooms:', err);
+      });
+  }, []);
 
-const RoomThumbnail: React.FC<RoomThumbnailProps> = () => {
   return (
     <div className="room-thumbnail">
       <h3>Rooms</h3>
       <p>All Rooms</p>
-      <div>
-        
+      <div id="quizContainer">
+        {rooms.map(room => (
+          <div className="quiz-box" key={room.slug}>
+            <a href={`/quiz/${room.slug}`}>
+              <img src={room.thumbnail_url} alt={room.title} />
+              <h3>{room.title}</h3>
+            </a>
+          </div>
+        ))}
       </div>
     </div>
   );
