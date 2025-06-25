@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt');
 const verificationCodes = {};
 const verifiedEmails = new Set();
 
+//Controller for Signup functionality
+const { createUserIfNotExists } = require('./controllers/userActions.js');
+
 // Email Transporter Setup
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -70,19 +73,12 @@ exports.submitCreateAccount = async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const [rows] = await mysqlConnection.execute(
-            'SELECT * FROM users WHERE username = ? OR email = ?',
-            [username, email]
-        );
-
-        if (rows.length > 0) {
-            return res.status(400).json({ message: 'Username or email already in use. Please use a different one.' });
-        }
-
-        await mysqlConnection.execute(
-            'INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)',
-            [username, email, hashedPassword, create_at]
-        );
+        await createUserIfNotExists({
+            email,
+            name: username,
+            password: hashedPassword,
+            create_at
+        });
 
         verifiedEmails.delete(email);
 

@@ -1,4 +1,4 @@
-const { connectMongoDB, connectMySQL } = require('./config/database/connection.js');
+const { connectMongoDB, connectMySQL } = require('../config/database/connection.js');
 
 exports.createUserIfNotExists = async({email, name, googleId, picture}) => {
     const [row] = await connectMySQL.query('SELECT * FROM users WHERE email = ?', [email]);

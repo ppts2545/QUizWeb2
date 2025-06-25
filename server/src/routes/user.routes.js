@@ -16,7 +16,7 @@ router.post('/verifyCode', SignupController.verifyCode);
 router.post('/submitCreateAccount', SignupController.submitCreateAccount);
 
 // User Login
-router.post('/userLogin', limiter, LoginController.userLogin);
+//router.post('/userLogin', limiter, LoginController.userLogin);
 
 // Google Login
 router.post('/googleLogin', limiter, LoginController.googleLogin);
