@@ -10,6 +10,7 @@ const Signup: React.FC = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [token, setToken] = useState("");
 
   // 1. Send verification code
   const handleSendCode = async (e: React.FormEvent) => {
@@ -38,6 +39,7 @@ const Signup: React.FC = () => {
     });
     const data = await res.json();
     if (res.ok) {
+      setToken(data.token);
       setStep(3);
       setMessage("Code verified! Please set your username and password.");
       return
@@ -52,7 +54,7 @@ const Signup: React.FC = () => {
     const res = await fetch("/api/user/submitCreateAccount", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: name, email, password }),
+      body: JSON.stringify({ username: name, password, token }),
     });
     const data = await res.json();
     if (res.ok) {

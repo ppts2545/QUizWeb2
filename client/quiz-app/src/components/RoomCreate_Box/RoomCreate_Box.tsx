@@ -96,7 +96,7 @@ const RoomCreateBox = () => {
                     value={roomTags}
                     onChange={(e) => setRoomTags(e.target.value)}
                 />
-                <button onClick={() => setStep(2)}>Next </button>
+                <button disabled={!roomTitle || !roomSlug || !roomDescription || !roomTags} onClick={() => setStep(2)}>Next </button>
             </div>
         )}
 
@@ -135,7 +135,7 @@ const RoomCreateBox = () => {
                       onChange={(e) => setRoomPassword(e.target.value)}
                   />
                 )}
-                <button onClick={() => setStep(3)}>Next </button>
+                <button disabled={!maxPlayers} onClick={() => setStep(3)}>Next </button>
                 <button onClick={() => setStep(1)}>Back </button>
             </div>
         )}

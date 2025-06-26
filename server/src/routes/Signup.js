@@ -4,8 +4,7 @@ const bcrypt = require('bcrypt');
 
 // Temporary in-memory stores
 const verificationCodes = {};
-const verifiedEmails = new Set();
-
+const verifiedTokens = {};
 //Controller for Signup functionality
 const { createUserIfNotExists } = require('./controllers/userActions.js');
 
@@ -56,19 +55,23 @@ exports.verifyCode = async (req, res) => {
     }
 
     delete verificationCodes[email];
-    verifiedEmails.add(email);
+
+    const token = crypto.randomBytes(16).toString('hex');
+    verifiedTokens[token] = email;
+
     res.status(200).json({ message: 'Verification successful' });
 };
 
 // 3. Create Account
 exports.submitCreateAccount = async (req, res) => {
-    const { username, email, password} = req.body;
+    const { username, password, token } = req.body;
+    const email = verifiedTokens[token];
 
-    const create_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-    if (!verifiedEmails.has(email)) {
+    if (!email) {
         return res.status(400).json({ message: 'Email not verified' });
     }
+
+    const create_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -80,7 +83,7 @@ exports.submitCreateAccount = async (req, res) => {
             create_at
         });
 
-        verifiedEmails.delete(email);
+        delete verifiedTokens[token];
 
         res.status(201).json({ message: 'User created successfully' });
 
