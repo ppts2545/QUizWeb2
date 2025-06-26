@@ -7,7 +7,7 @@ require('dotenv').config();
 const UserRoute = require('./routes/user.routes');
 
 
-const { connectMongoDB, connectMySQL } = require('./config/database/connection.js');
+const { /*connectMongoDB,*/connectMySQL } = require('./config/database/connection.js');
 
 // Load environment variables
 dotenv.config();
@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //Connect to databases
-connectMongoDB();
+//connectMongoDB();
 connectMySQL();
 
 // Middleware to parse incoming JSON and URL-encoded data

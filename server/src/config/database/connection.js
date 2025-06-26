@@ -1,8 +1,8 @@
 
 // MongoDB connection
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 
-async function connectMongoDB() {
+/*async function connectMongoDB() {
   try {
     await mongoose.connect('mongodb://localhost:27017/QuizWeb_db', {
       useNewUrlParser: true,
@@ -12,10 +12,10 @@ async function connectMongoDB() {
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
   }
-}
+}*/
 
 // MySQL connection
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 let mysqlConnection;
 async function connectMySQL() {
   try {
@@ -30,11 +30,17 @@ async function connectMySQL() {
     console.error('MySQL connection error:', err);
   }
 }
-connectMongoDB();
-connectMySQL();
+
+// Create connection immediately
+const connectionPromise = connectMySQL();;
 
 module.exports = {
-    connectMongoDB,
+    //connectMongoDB,
     connectMySQL,
-    getMySQLConnection: () => mysqlConnection
+    getMySQLConnection: async () => {
+      if (!mysqlConnection) {
+        await connectionPromise;
+      }
+      return mysqlConnection;
+    }
 }

@@ -1,11 +1,13 @@
 const nodemailer = require('nodemailer');
 const mysqlConnection = require('../../config/database/connection').getMySQLConnection();
 const bcrypt = require('bcrypt');
-const createUserIfNotExists = require('../userActions')
+const crypto = require('crypto');
+const { createUserIfNotExists } = require('../userActions')
 
 // Temporary in-memory stores
 const verificationCodes = {};
 const verifiedEmails = new Set();
+const verifiedTokens = {};
 
 // Email Transporter Setup
 const transporter = nodemailer.createTransport({
@@ -55,22 +57,30 @@ exports.verifyCode = async (req, res) => {
 
     delete verificationCodes[email];
     verifiedEmails.add(email);
-    res.status(200).json({ message: 'Verification successful' });
+
+    const token = crypto.randomBytes(16).toString('hex');
+    verifiedTokens[token] = email;
+
+    res.status(200).json({ message: 'Verification successful', token });
 };
 
 // 3. Create Account
 exports.submitCreateAccount = async (req, res) => {
-    const { username, email, password, picture} = req.body;
+    const { username, password, token } = req.body;
+    const email = verifiedTokens[token];
 
-    const create_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-    if (!verifiedEmails.has(email)) {
-        return res.status(400).json({ message: 'Email not verified' });
+    if (!email) {
+        return res.status(400).json({ message: 'Invalid or expired token' });
     }
 
     try {
-       await createUserIfNotExists(username, email, password, picture, create_at);
-       res.status(200).json({message: 'Account created successfully'})
+       const hashedPassword = await bcrypt.hash(password, 10);
+       await createUserIfNotExists({
+            email,
+            name: username,
+            password: hashedPassword
+       });
+       res.status(200).json({ message: 'Account created successfully' });
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ message: 'Internal server error' });
