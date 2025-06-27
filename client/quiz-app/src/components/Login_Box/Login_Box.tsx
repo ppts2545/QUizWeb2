@@ -1,28 +1,72 @@
 import React from 'react';
 import "./Login_Box.css";
-// Update the import path and casing if needed
 import GoogleOneTap from '../GoogleOneTap/GoogleOneTap';
 
 const Login: React.FC = () => {
-    return(
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [error, setError] = React.useState("");
+    const [success, setSuccess] = React.useState("");
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        setSuccess("");
+
+        try {
+            const res = await fetch("/api/user/userLogin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setSuccess("Login successful!");
+                // Example: redirect or update global state
+                // navigate('/dashboard');
+            } else {
+                setError(data.message || "Login failed. Please try again.");
+            }
+        } catch (err) {
+            setError("An unexpected error occurred. Please try again.");
+        }
+    };
+
+    return (
         <div className="modal-overlay">
             <div className="modal">
                 <h2>Login</h2>
-                <form>
+                <form onSubmit={handleLogin}>
                     <div>
                         <label>Email:</label>
-                        <input type="email" name="email" required />
+                        <input 
+                            type="email" 
+                            name="email" 
+                            required 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} 
+                        />
                     </div>
                     <div>
                         <label>Password:</label>
-                        <input type="password" name="password" required />
+                        <input 
+                            type="password" 
+                            name="password" 
+                            required 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                        />
                     </div>
+                    {error && <p className="error">{error}</p>}
+                    {success && <p className="success">{success}</p>}
                     <input type="submit" value="Login Account" />
                 </form>
-                <GoogleOneTap/>
+                <GoogleOneTap />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Login;

@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
 require('dotenv').config();
 
 // Import routes
@@ -22,6 +25,11 @@ connectMySQL();
 // Middleware to parse incoming JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173', // Your React app's URL
+  credentials: true // Important for cookies
+}));
 
 // Serve static files from /public
 app.use(express.static(path.join(__dirname, 'public')));

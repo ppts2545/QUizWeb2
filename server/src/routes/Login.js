@@ -1,9 +1,9 @@
-const mysqlConnection = require('./config/database/connection.js');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dbConnection = require('../config/database/connection.js');
 
-
-const LoginController = {
+const Login = {
     // 1. User Login
     userLogin: async (req, res) => {
         const { email, password } = req.body;
@@ -13,6 +13,7 @@ const LoginController = {
         }
 
         try {
+            const mysqlConnection = await dbConnection.getMySQLConnection();
             const [rows] = await mysqlConnection.execute('SELECT * FROM users WHERE email = ?', [email]);
             if (rows.length === 0) {
                 return res.status(401).json({ message: 'Invalid email or password' });
@@ -41,4 +42,4 @@ const LoginController = {
     }
 };
 
-module.exports = LoginController;
+module.exports = Login;

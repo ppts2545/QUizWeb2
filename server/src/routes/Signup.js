@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const mysqlConnection = require('./config/database/connection.js').getMySQLConnection();
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
