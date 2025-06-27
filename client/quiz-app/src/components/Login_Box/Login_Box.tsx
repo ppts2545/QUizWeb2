@@ -1,12 +1,14 @@
 import React from 'react';
 import "./Login_Box.css";
 import GoogleOneTap from '../GoogleOneTap/GoogleOneTap';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,6 +20,7 @@ const Login: React.FC = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
+                credentials: 'include' // Include cookies in the request
             });
 
             const data = await res.json();
@@ -25,7 +28,10 @@ const Login: React.FC = () => {
             if (res.ok) {
                 setSuccess("Login successful!");
                 // Example: redirect or update global state
-                // navigate('/dashboard');
+                setTimeout(() => {
+                    // Redirect to dashboard or update global state
+                    navigate('/')
+                }, 1000);
             } else {
                 setError(data.message || "Login failed. Please try again.");
             }
