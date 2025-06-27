@@ -23,6 +23,6 @@ const upload = multer({ storage });
 router.post('/createRoom', authMiddleware, upload.single('thumbnail'), CreateRoom.createRoom);
 
 //Get Room Thumbnail
-router.get('/rooms', CreateRoomThumbnail.createRoomThumbnail);
+router.get('/allRooms', CreateRoomThumbnail.createRoomThumbnail);
 
 module.exports = router;
