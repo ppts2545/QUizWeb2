@@ -38,7 +38,7 @@ const RoomCreateBox = () => {
     }
 
     try {
-      const res = await fetch('/api/rooms', {
+      const res = await fetch('/api/room/createRoom', {
         method: 'POST',
         body: formData,
       });

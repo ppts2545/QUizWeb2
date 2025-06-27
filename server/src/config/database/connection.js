@@ -35,7 +35,7 @@ async function connectMySQL() {
 const connectionPromise = connectMySQL();;
 
 module.exports = {
-    //connectMongoDB,
+    connectMongoDB,
     connectMySQL,
     getMySQLConnection: async () => {
       if (!mysqlConnection) {

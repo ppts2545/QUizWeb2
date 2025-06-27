@@ -1,5 +1,5 @@
 const slugify = require('slugify');
-const Room = require('../models/Room'); // Make sure to import your Room model
+const Room = require('../../models/Room'); // Fixed: correct path to the model
 
 exports.createRoom = async (req, res) => {
     try {
@@ -10,11 +10,11 @@ exports.createRoom = async (req, res) => {
             title,
             slug,
             description,
-            tags,
-            maxPlayers,
-            isPublic,
+            tags: tags.split(',').map(tag => tag.trim()), // Convert comma-separated string to array
+            maxPlayers: maxPlayers || 10,
+            isPublic: isPublic !== false, // Default to true
             password,
-            color,
+            color: color || '#ffffff',
             creator: req.user.userId // Get user ID from the auth middleware
         });
 

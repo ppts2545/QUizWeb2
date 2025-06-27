@@ -8,9 +8,9 @@ require('dotenv').config();
 
 // Import routes
 const UserRoute = require('./routes/user.routes');
+const RoomRoute = require('./routes/room.routes');
 
-
-const { /*connectMongoDB,*/connectMySQL } = require('./config/database/connection.js');
+const { connectMongoDB, connectMySQL } = require('./config/database/connection.js');
 
 // Load environment variables
 dotenv.config();
@@ -19,7 +19,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //Connect to databases
-//connectMongoDB();
+connectMongoDB();
 connectMySQL();
 
 // Middleware to parse incoming JSON and URL-encoded data
@@ -40,6 +40,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/user', UserRoute);
 
+app.use('/api/room', RoomRoute);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
