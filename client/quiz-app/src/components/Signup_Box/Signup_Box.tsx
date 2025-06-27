@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Signup_Box.css";
 import GoogleOneTap from '../GoogleOneTap/GoogleOneTap';
-
+import { useNavigate } from 'react-router-dom';
+import cancelImage from '../../assets/icons/cancel48.png';
 
 const Signup: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -11,6 +12,11 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    navigate('/'); // Redirect to home or another page
+  }
 
   // 1. Send verification code
   const handleSendCode = async (e: React.FormEvent) => {
@@ -69,6 +75,7 @@ const Signup: React.FC = () => {
     <div className="modal-overlay">
       <div className="modal">
         <h2>Create Account</h2>
+        <button className="close-button" onClick={handleClose}><img src={cancelImage} alt="Close" /></button>
         <p>{message}</p>
         {step === 1 && (
           <form onSubmit={handleSendCode}>

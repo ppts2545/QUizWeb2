@@ -15,6 +15,7 @@
 
 /* Popup container */
 .modal {
+  position: relative;
   background-color: white;
   padding: 2rem;
   border-radius: 10px;
@@ -45,4 +46,18 @@
 
 .modal input[type="submit"]:hover {
   background-color: #0056b3;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.close-button img {
+  width: 30px; /* Adjust size as needed */
+  height: 30px;
 }

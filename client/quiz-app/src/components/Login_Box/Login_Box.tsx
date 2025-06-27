@@ -2,6 +2,7 @@ import React from 'react';
 import "./Login_Box.css";
 import GoogleOneTap from '../GoogleOneTap/GoogleOneTap';
 import { useNavigate } from 'react-router-dom';
+import cancelImage from '../../assets/icons/cancel48.png'; // Adjust the path as necessary
 
 const Login: React.FC = () => {
     const [email, setEmail] = React.useState("");
@@ -9,6 +10,10 @@ const Login: React.FC = () => {
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
     const navigate = useNavigate();
+
+    const handleClose = () => {
+        navigate('/'); // Redirect to home or another page
+    }
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,6 +49,7 @@ const Login: React.FC = () => {
         <div className="modal-overlay">
             <div className="modal">
                 <h2>Login</h2>
+                <button className="close-button" onClick={handleClose}><img src={cancelImage} alt="Close" /></button>
                 <form onSubmit={handleLogin}>
                     <div>
                         <label>Email:</label>
