@@ -1,8 +1,8 @@
 
 // MongoDB connection
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-/*async function connectMongoDB() {
+async function connectMongoDB() {
   try {
     await mongoose.connect('mongodb://localhost:27017/QuizWeb_db', {
       useNewUrlParser: true,
@@ -12,7 +12,7 @@
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
   }
-}*/
+}
 
 // MySQL connection
 const mysql = require('mysql2/promise');
