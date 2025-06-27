@@ -18,8 +18,10 @@ const RoomCreateBox = () => {
     const [roomColor, setRoomColor] = useState('#ffffff'); // Default room color
     const [roomPassword, setRoomPassword] = useState('false');
     
+
   const handleCreateRoom = async () => {
     setCreatingRoom(true);
+  
 
     // example: form data to send to backend
     const formData = new FormData();
@@ -41,10 +43,11 @@ const RoomCreateBox = () => {
       const res = await fetch('/api/room/createRoom', {
         method: 'POST',
         body: formData,
+        credentials: 'include', // Include cookies for session management
       });
 
       const data = await res.json();
-      if (data.success) {
+      if (res.ok) {
         navigate(`/room/${roomSlug}`); // Go to the new room
       } else {
         setError(data.message || 'Failed to create room.');
