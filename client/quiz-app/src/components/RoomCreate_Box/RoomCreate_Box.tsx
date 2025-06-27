@@ -58,127 +58,129 @@ const RoomCreateBox = () => {
   };
 
   return (
-    <div className="room-create-box">
-      <h2>Create a New Room</h2>
+    <div className="room-create-box-modal">
+      <div className="modal-content">
+        <h2>Create a New Room</h2>
 
-      {step === 1 && (
-            <div>
-                <h3>Basic Room Info</h3>
-                <input
-                    type="text"
-                    placeholder="Room Title"
-                    value={roomTitle}
-                    onChange={(e) => setRoomTitle(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Room Slug"
-                    value={roomSlug}
-                    onChange={(e) => setRoomSlug(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Room Description"
-                    value={roomDescription}
-                    onChange={(e) => setRoomDescription(e.target.value)}
-                />
-                <input
-                    type="file"
-                    onChange={(e) => {
-                    if (e.target.files) {
-                        setRoomThumbnail(e.target.files[0]);
-                    }
-                    }}
-                />
-                <input
-                    type="text"
-                    placeholder="Room Tags (comma separated)"
-                    value={roomTags}
-                    onChange={(e) => setRoomTags(e.target.value)}
-                />
-                <button disabled={!roomTitle || !roomSlug || !roomDescription || !roomTags} onClick={() => setStep(2)}>Next </button>
-            </div>
-        )}
-
-        {step === 2 && (
-            <div>
-                <h3>Room Setting</h3>
-                <p>Title: {roomTitle}</p>
-                <br />
-                <input
-                    type="number"
-                    placeholder="Max Players"
-                    value={maxPlayers}
-                    onChange={(e) => setMaxPlayers(Number(e.target.value))}
-                />
-                <br />
-                <label htmlFor="">Public</label>
-                <input
-                    type="radio"
-                    name='visibility'
-                    checked={isPublic}
-                    onChange={() => setIsPublic(true)}
-                />
-                <label htmlFor="">Private</label>
-                <input
-                    type="radio"
-                    name='visibility'
-                    checked={!isPublic}
-                    onChange={() => setIsPublic(false)}
-                />
-                <br />
-                {!isPublic && (
+        {step === 1 && (
+              <div className="step-content">
+                  <h3>Basic Room Info</h3>
                   <input
                       type="text"
-                      placeholder="Room Password (optional)"
-                      value={roomPassword}
-                      onChange={(e) => setRoomPassword(e.target.value)}
+                      placeholder="Room Title"
+                      value={roomTitle}
+                      onChange={(e) => setRoomTitle(e.target.value)}
                   />
-                )}
-                <button disabled={!maxPlayers} onClick={() => setStep(3)}>Next </button>
-                <button onClick={() => setStep(1)}>Back </button>
-            </div>
-        )}
+                  <input
+                      type="text"
+                      placeholder="Room Slug"
+                      value={roomSlug}
+                      onChange={(e) => setRoomSlug(e.target.value)}
+                  />
+                  <input
+                      type="text"
+                      placeholder="Room Description"
+                      value={roomDescription}
+                      onChange={(e) => setRoomDescription(e.target.value)}
+                  />
+                  <input
+                      type="file"
+                      onChange={(e) => {
+                      if (e.target.files) {
+                          setRoomThumbnail(e.target.files[0]);
+                      }
+                      }}
+                  />
+                  <input
+                      type="text"
+                      placeholder="Room Tags (comma separated)"
+                      value={roomTags}
+                      onChange={(e) => setRoomTags(e.target.value)}
+                  />
+                  <button disabled={!roomTitle || !roomSlug || !roomDescription || !roomTags} onClick={() => setStep(2)}>Next </button>
+              </div>
+          )}
 
-        {step === 3 && (
-            <div>
-                <h3>Appearance</h3>
-                <label htmlFor="roomThumbnail">Room Thumbnail</label>
-                <input
-                    type="file"
-                    onChange={(e) => {
-                    if (e.target.files) {
-                        setRoomThumbnail(e.target.files[0]);
-                    }
-                    }}
-                />
-                <label htmlFor="roomColor">Room Color</label>
-                <input type="color" onChange={(e) => setRoomColor(e.target.value)} />
-                <br />
-                <button onClick={() => setStep(4)}>Next</button>
-                <button onClick={() => setStep(2)}>Back</button>
-            </div>
-        )}
+          {step === 2 && (
+              <div className="step-content">
+                  <h3>Room Setting</h3>
+                  <p>Title: {roomTitle}</p>
+                  <br />
+                  <input
+                      type="number"
+                      placeholder="Max Players"
+                      value={maxPlayers}
+                      onChange={(e) => setMaxPlayers(Number(e.target.value))}
+                  />
+                  <br />
+                  <label htmlFor="">Public</label>
+                  <input
+                      type="radio"
+                      name='visibility'
+                      checked={isPublic}
+                      onChange={() => setIsPublic(true)}
+                  />
+                  <label htmlFor="">Private</label>
+                  <input
+                      type="radio"
+                      name='visibility'
+                      checked={!isPublic}
+                      onChange={() => setIsPublic(false)}
+                  />
+                  <br />
+                  {!isPublic && (
+                    <input
+                        type="text"
+                        placeholder="Room Password (optional)"
+                        value={roomPassword}
+                        onChange={(e) => setRoomPassword(e.target.value)}
+                    />
+                  )}
+                  <button disabled={!maxPlayers} onClick={() => setStep(3)}>Next </button>
+                  <button onClick={() => setStep(1)}>Back </button>
+              </div>
+          )}
 
-        {step === 4 && (
-            <div>
-                <h3>Review & Create</h3>
-                <p><strong>Room Thumbnail:</strong> {roomThumbnail ? roomThumbnail.name : 'No thumbnail selected'}</p>
-                <p><strong>Room Color:</strong> <span style={{ backgroundColor: roomColor, padding: '5px', borderRadius: '5px' }}>{roomColor}</span></p>
-                <p><strong>Title:</strong> {roomTitle}</p>
-                <p><strong>Slug:</strong> {roomSlug}</p>
-                <p><strong>Description:</strong> {roomDescription}</p>
-                <p><strong>Tags:</strong> {roomTags}</p>
-                <p><strong>Max Players:</strong> {maxPlayers}</p>
-                <p><strong>Type:</strong> {isPublic ? 'Public' : 'Private'}</p>
+          {step === 3 && (
+              <div className="step-content">
+                  <h3>Appearance</h3>
+                  <label htmlFor="roomThumbnail">Room Thumbnail</label>
+                  <input
+                      type="file"
+                      onChange={(e) => {
+                      if (e.target.files) {
+                          setRoomThumbnail(e.target.files[0]);
+                      }
+                      }}
+                  />
+                  <label htmlFor="roomColor">Room Color</label>
+                  <input type="color" onChange={(e) => setRoomColor(e.target.value)} />
+                  <br />
+                  <button onClick={() => setStep(4)}>Next</button>
+                  <button onClick={() => setStep(2)}>Back</button>
+              </div>
+          )}
 
-                <br />
-                {error && <p className="error">{error}</p>}
-                <button disabled={creatingRoom} onClick={handleCreateRoom}>
-                    {creatingRoom ? 'Creating...' : 'Create Room'}
-                </button>
-            </div>
-        )}
+          {step === 4 && (
+              <div className="step-content">
+                  <h3>Review & Create</h3>
+                  <p><strong>Room Thumbnail:</strong> {roomThumbnail ? roomThumbnail.name : 'No thumbnail selected'}</p>
+                  <p><strong>Room Color:</strong> <span style={{ backgroundColor: roomColor, padding: '5px', borderRadius: '5px' }}>{roomColor}</span></p>
+                  <p><strong>Title:</strong> {roomTitle}</p>
+                  <p><strong>Slug:</strong> {roomSlug}</p>
+                  <p><strong>Description:</strong> {roomDescription}</p>
+                  <p><strong>Tags:</strong> {roomTags}</p>
+                  <p><strong>Max Players:</strong> {maxPlayers}</p>
+                  <p><strong>Type:</strong> {isPublic ? 'Public' : 'Private'}</p>
+
+                  <br />
+                  {error && <p className="error">{error}</p>}
+                  <button disabled={creatingRoom} onClick={handleCreateRoom}>
+                      {creatingRoom ? 'Creating...' : 'Create Room'}
+                  </button>
+              </div>
+          )}
+      </div>
     </div>
   );
 };

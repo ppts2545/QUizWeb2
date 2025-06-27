@@ -2,7 +2,7 @@ import React from 'react';
 import "./Login_Box.css";
 import GoogleOneTap from '../GoogleOneTap/GoogleOneTap';
 import { useNavigate } from 'react-router-dom';
-import cancelImage from '../../assets/icons/cancel48.png'; // Adjust the path as necessary
+import cancelImage from '../../assets/icons/cancel48.png'; 
 
 const Login: React.FC = () => {
     const [email, setEmail] = React.useState("");

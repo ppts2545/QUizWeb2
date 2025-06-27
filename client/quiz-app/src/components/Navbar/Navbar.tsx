@@ -25,6 +25,7 @@ const Navbar: React.FC = () => {
     // Add specific logic for About
   };
 
+
   return (
     <nav className="navbar">
       <div className="logo">🌟 MyWebsite</div>
@@ -37,7 +38,7 @@ const Navbar: React.FC = () => {
         <li className="quiz_navbar_link">
           <Link to="/quiz" onClick={handleQuizClick}>Quiz</Link>
             <div className="room-dropdown">
-              <Link to="/quiz/1">Create Room</Link>
+              <Link to="/create-room" >Create Room</Link>
               <Link to="/quiz/2">Join Room</Link>
               <Link to="/quiz/3">Room Info</Link>
             </div>
@@ -49,7 +50,7 @@ const Navbar: React.FC = () => {
         </li>
         <li>
           <Link to="/about" className="nav-link" onClick={handleAboutClick}>
-            About
+            Abouts
           </Link>
         </li>
         <li className="account-link">
